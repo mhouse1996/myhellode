@@ -12,5 +12,4 @@ function e($str)
 
 $container = new App\Core\Container($configs);
 
-//CHANGED
 ?>
