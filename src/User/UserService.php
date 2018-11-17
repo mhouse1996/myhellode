@@ -31,7 +31,7 @@ class UserService
         $_SESSION['usertype'] = $user->usertype;
         $_SESSION['email'] = $user->email;
         $_SESSION['grants'] = $user->grants;
-        $_SESSION['navbar'] = $this->userRepository->fetchNavbar($user);
+        /*$_SESSION['navbar'] = $this->userRepository->fetchNavbar($user);*/
         return true;
       }else{
         return false;

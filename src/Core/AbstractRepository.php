@@ -63,7 +63,7 @@ abstract class AbstractRepository
                             '$arg3' => $arg3,
                             '$param3' => $param3]);
   }*/
-  
+
   function query($qry)
   {
 	  $table = $this->getTableName();

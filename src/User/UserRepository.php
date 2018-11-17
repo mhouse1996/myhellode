@@ -27,7 +27,7 @@ class UserRepository extends AbstractRepository
     return $user;
   }
 
-  public function fetchNavbar($user)
+  /*public function fetchNavbar($user)
   {
     $table = "navbar";
     $model = "App\\User\NavigationModel";
@@ -36,7 +36,7 @@ class UserRepository extends AbstractRepository
     $stmt->setFetchMode(PDO::FETCH_CLASS, $model);
     $res = $stmt->fetch(PDO::FETCH_CLASS);
     return $res;
-  }
+  }*/
 
 }
 
