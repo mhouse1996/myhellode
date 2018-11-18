@@ -30,7 +30,7 @@ if(!empty($breakTickets)){
 foreach($breakTickets AS $breakTicket)
 {
   if(isset($breakTicket->owner)){
-    $userType = $breakTicket->userType == "sales" ? "Outbond" : $breakTicket->userType == "service" ? "Inbound" : 0;
+    $userType = $breakTicket->userType == "sales" ? "Outbond" : "Inbound";
     $breakType = $breakTicket->estimatedBreakDuration == "short" ? "Bis zu 10 Minuten" : $breakTicket->estimatedBreakDuration == "long" ? "Bis zu 30 Minuten" : 0;
 
     echo '
@@ -73,10 +73,13 @@ echo 'Aktuelle Regeln:<br/>
           <th>
             Zeitraum
           </th>
+          <th>
+            Aktionen
+          </th>
         </tr>';
 foreach($breakTickets AS $rule)
 {
-  $userType = $rule->userType == "service" ? "Inbound" : $rule->userType == "sales" ? "Outbound" : 0;
+  $userType = $rule->userType == "service" ? "Inbound" : "Outbond";
   echo '<tr>
           <td>
             '.$userType.'
@@ -84,6 +87,8 @@ foreach($breakTickets AS $rule)
           <td>
             '.$rule->beginningTime.'-'.$rule->endingTime.'
           </td>
+          <td>
+            <form method="POST" action="removeTicket?id='.$rule->id.'"><input type="submit" value="Entfernen" /></form>  
         </tr>';
 }
 echo '</table>';

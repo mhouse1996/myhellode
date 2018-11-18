@@ -6,6 +6,7 @@ use PDO;
 
 class UserRepository extends AbstractRepository
 {
+  
   public function getTableName()
   {
     return "accounts";

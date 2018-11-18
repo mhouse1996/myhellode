@@ -4,15 +4,17 @@ namespace App\BreakSystem;
 
 use App\Core\AbstractController;
 use App\User\UserController;
+use App\Log\LogController;
 
 class breakController extends AbstractController
 {
 
   public function __construct(UserController $userController,
-  BreakRepository $breakRepository, $configs)
+  BreakRepository $breakRepository, LogController $logController, $configs)
   {
     $this->userController = $userController;
     $this->breakRepository = $breakRepository;
+    $this->logController = $logController;
     $this->configs = $configs;
 
     if(!$this->userController->checkLoginstate()){
@@ -46,8 +48,8 @@ class breakController extends AbstractController
       {
         //Check if someone forget to give his breakticket free
         if($breakTicket->timeToken != null AND (time()-$breakTicket->timeToken) > ($this->configs['breakSystem']['latencyTime']*60)) {
-          die("1");
-          //log("User did not unbreak", $_SESSION['id'], time());
+          $user = $this->userController->returnUserById($breakTicket->owner);
+          $this->logController->log('BreakController', 'INFO', 'User '.$user->username.'('.$user->fullname.') did not unbreak. Auto-unbreak', $_SESSION['id']);
           $this->breakRepository->unbreak($breakTicket->owner);
           $breakTicket->timeToken = null;
           $breakTicket->owner = null;
@@ -55,21 +57,17 @@ class breakController extends AbstractController
 
         //Check if breakticket of earlier time period is still token
         if(!$this->checkAvailabilityByTime($breakTicket) AND $breakTicket->userType == $_SESSION['usertype'] AND isset($breakTicket->owner)) {
-          echo("Owner:".$breakTicket->owner."\n");
           $breakTicketsSubstr++;
         }
-        echo "Substrator: ".$breakTicketsSubstr."\n";
+
         //Check if ticket is available at this time
         if($this->checkAvailability($breakTicket)) {
-          echo "Ticket is available\n";
           if($breakTicketsSubstr>0) {
-            echo "Downgraded.\n";
             $breakTicketsSubstr = $breakTicketsSubstr-1;
           }else {
             $freeBreakTickets[] = $breakTicket;
           }
         }
-        echo "FIN\n";
       }
     }
 
@@ -126,7 +124,7 @@ class breakController extends AbstractController
 
     if(!isset($ticket->owner) AND $ticket->userType == $_SESSION['usertype'] AND $this->checkAvailability($this->fetchBreakTicketById($ticketID)) AND isset($_POST['estimatedBreakDuration'])){
       if($this->breakRepository->takeBreakTicket($ticketID, $_SESSION['id'], $_POST['estimatedBreakDuration'])){
-        header("Location: breaksystem");
+        $this->showFreeBreakTickets();
       }else {
         $this->render("breakSystem/error", [
           'msg' => 'couldNotTakeBreakticket'
@@ -156,8 +154,8 @@ class breakController extends AbstractController
     $req = $this->breakRepository->unbreak($_SESSION['id']);
 
     if($req){
-      header("Location: breaksystem");
-    }else{
+      $this->showFreeBreakTickets();
+    } else {
       $this->render("breakSystem/error", [
         'msg' => 'couldNotUnbreak'
       ]);

@@ -40,6 +40,10 @@ $routes = [
 	'/addTicket' => [
 		'controller' => 'breakAdminController',
 		'method' => 'addTicket'
+	],
+	'/removeTicket' => [
+		'controller' => 'breakAdminController',
+		'method' => 'removeTicket'
 	]
 ];
 

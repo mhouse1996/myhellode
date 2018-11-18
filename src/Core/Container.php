@@ -9,9 +9,13 @@ use PDOException;
 use App\User\UserRepository;
 use App\User\UserController;
 use App\User\UserService;
+
 use App\BreakSystem\BreakRepository;
 use App\BreakSystem\BreakController;
 use App\BreakSystem\BreakAdminController;
+
+use App\Log\LogController;
+use App\Log\LogRepository;
 
 class Container
 {
@@ -23,10 +27,23 @@ class Container
   {
     $this->configs = $configs;
     $this->receipts = [
+      'logController' => function()
+      {
+        return new LogController(
+          $this->make('logRepository')
+        );
+      },
+      'logRepository' => function()
+      {
+        return new LogRepository(
+          $this->make('pdo')
+        );
+      },
       'breakAdminController' => function()
       {
         return new BreakAdminController(
-          $this->make('breakController')
+          $this->make('breakController'),
+          $this->make('logController')
         );
       },
       'breakController' => function()
@@ -34,6 +51,7 @@ class Container
         return new BreakController(
           $this->make('userController'),
           $this->make('breakRepository'),
+          $this->make('logController'),
           $this->configs
         );
       },

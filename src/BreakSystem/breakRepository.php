@@ -41,5 +41,13 @@ class BreakRepository extends AbstractRepository
                             'endingTime' => $endingTime]);
     return $res;
   }
+
+  public function removeBreakTicket($ticketID)
+  {
+    $table = $this->getTableName();
+    $stmt = $this->pdo->prepare("DELETE FROM `$table` WHERE id=:id");
+    $res = $stmt->execute(['id' => $ticketID]);
+    return $res;
+  }
 }
 ?>
