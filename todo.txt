@@ -1,10 +1,10 @@
--Remove break tickets
--Enable/Disable toggle
+X-Remove break tickets
+X-Enable/Disable toggle
 X-Fix timeout timer
 X-Fix amount of free break tickets
 X-Fix translation of usertype
 X-log controller
--log view page
+X-log view page
 -sort rules
--show how much free tickets are available for each usertype
--fix header actions
+X-show how much free tickets are available for each usertype
+X-fix header actions

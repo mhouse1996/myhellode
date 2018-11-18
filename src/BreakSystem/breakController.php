@@ -17,9 +17,9 @@ class breakController extends AbstractController
     $this->logController = $logController;
     $this->configs = $configs;
 
-    if(!$this->userController->checkLoginstate()){
+    /*if(!$this->userController->checkLoginstate()){
       header("Location: index");
-    }
+    }*/
   }
 
   public function fetchBreakTickets()
@@ -76,7 +76,7 @@ class breakController extends AbstractController
 
   public function checkAvailability($breakTicket)
   {
-    if($breakTicket->userType == $_SESSION['usertype'] AND !isset($breakTicket->owner)){
+    if($breakTicket->userType == $_SESSION['usertype'] AND !isset($breakTicket->owner) AND $breakTicket->activity){
       if($this->checkAvailabilityByTime($breakTicket)){
         return true;
       } else {

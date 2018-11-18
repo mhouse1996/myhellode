@@ -30,7 +30,9 @@ class Container
       'logController' => function()
       {
         return new LogController(
-          $this->make('logRepository')
+          $this->make('logRepository'),
+          $this->make('userController'),
+          $this->configs
         );
       },
       'logRepository' => function()

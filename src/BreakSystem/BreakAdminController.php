@@ -47,18 +47,25 @@ class BreakAdminController extends AbstractController
       $this->showAdminPage();
     }
 
-    public function removeTicket()
+    public function changeTicket()
     {
-      if(isset($_GET['id'])){
+      if(isset($_GET['id']) && isset($_GET['action'])){
         $ticketID = $_GET['id'];
-        $req = $this->breakRepository->removeBreakTicket($ticketID);
+        $errmsg = "Error message is unset.";
+
+        if($_GET['action'] == "remove"){
+          $req = $this->breakRepository->removeBreakTicket($ticketID);
+          $errmsg = 'couldNotRemoveTicket';
+        } elseif($_GET['action'] == "toggle" && isset($_GET['state'])) {
+          $req = $this->breakRepository->toggleActivityState($ticketID, $_GET['state']);
+          $errmsg = 'couldNotToggleTicket';
+        }
 
         if($req){
           $this->showAdminPage();
         } else {
-          $this->logController->log('BreakAdminController', 'ERR', 'Could not remove ticket');
           $this->render("breakSystem/error", [
-            'msg' => 'couldNotRemoveTicket'
+            'msg' => $errmsg
           ]);
         }
       }

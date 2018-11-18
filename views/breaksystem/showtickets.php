@@ -21,7 +21,7 @@ if(isset($msg)){
 $ticketCount = 0;
 if($freeBreakTickets != 0)
 {
-  foreach($freeBreakTickets AS $breakTicket)
+  foreach($freeBreakTickets as $breakTicket)
   {
     echo '<form method="POST" action="takeBreakTicket?id='.$breakTicket->id.'"">
             <select name="estimatedBreakDuration">
