@@ -1,3 +1,5 @@
 -Remove break tickets
 -Enable/Disable toggle
--Fix timeout timer
+X-Fix timeout timer
+X-Fix amount of free break tickets
+-Fix translation of usertype

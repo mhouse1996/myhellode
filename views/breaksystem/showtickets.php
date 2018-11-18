@@ -33,7 +33,10 @@ if($freeBreakTickets != 0)
     $ticketCount++;
   }
 }
-if($ticketCount > 1 OR $ticketCount == 0): echo "Es sind ".$ticketCount." Pausentickets f&uuml;r dich verf&uuml;gbar.<br>"; else: echo "Es ist ".$ticketCount." Pausenticket f&uuml;r dich verf&uuml;gbar.<br>"; endif;
+
+$userType = $_SESSION['usertype'] == "sales" ? "Outbound" : $_SESSION['usertype'] == "service" ? "Inbound" : 0;
+
+if($ticketCount > 1 OR $ticketCount == 0): echo "Es sind ".$ticketCount." Pausentickets f&uuml;r ".$userType." verf&uuml;gbar.<br>"; else: echo "Es ist ".$ticketCount." Pausenticket f&uuml;r dich verf&uuml;gbar.<br>"; endif;
 ?>
 
 <?php include __DIR__ . "/../layout/footer.php"; ?>

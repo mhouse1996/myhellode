@@ -46,6 +46,7 @@ class breakController extends AbstractController
       {
         //Check if someone forget to give his breakticket free
         if($breakTicket->timeToken != null AND (time()-$breakTicket->timeToken) > ($this->configs['breakSystem']['latencyTime']*60)) {
+          die("1");
           //log("User did not unbreak", $_SESSION['id'], time());
           $this->breakRepository->unbreak($breakTicket->owner);
           $breakTicket->timeToken = null;
@@ -53,18 +54,22 @@ class breakController extends AbstractController
         }
 
         //Check if breakticket of earlier time period is still token
-        if(!$this->checkAvailability($breakTicket) AND $breakTicket->userType == $_SESSION['usertype'] AND isset($breakTicket->owner)) {
+        if(!$this->checkAvailabilityByTime($breakTicket) AND $breakTicket->userType == $_SESSION['usertype'] AND isset($breakTicket->owner)) {
+          echo("Owner:".$breakTicket->owner."\n");
           $breakTicketsSubstr++;
         }
-
+        echo "Substrator: ".$breakTicketsSubstr."\n";
         //Check if ticket is available at this time
         if($this->checkAvailability($breakTicket)) {
+          echo "Ticket is available\n";
           if($breakTicketsSubstr>0) {
+            echo "Downgraded.\n";
             $breakTicketsSubstr = $breakTicketsSubstr-1;
           }else {
             $freeBreakTickets[] = $breakTicket;
           }
         }
+        echo "FIN\n";
       }
     }
 
@@ -74,12 +79,21 @@ class breakController extends AbstractController
   public function checkAvailability($breakTicket)
   {
     if($breakTicket->userType == $_SESSION['usertype'] AND !isset($breakTicket->owner)){
-      $timeNow = date("H:i");
-      if($timeNow > $breakTicket->beginningTime AND $timeNow < $breakTicket->endingTime) {
+      if($this->checkAvailabilityByTime($breakTicket)){
         return true;
-      }else {
+      } else {
         return false;
       }
+    }
+  }
+
+  public function checkAvailabilityByTime($breakTicket)
+  {
+    $timeNow = date("H:i");
+    if($timeNow > $breakTicket->beginningTime AND $timeNow < $breakTicket->endingTime) {
+      return true;
+    }else {
+      return false;
     }
   }
 
