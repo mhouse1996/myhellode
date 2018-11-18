@@ -51,7 +51,7 @@ class breakController extends AbstractController
         //Check if someone forget to give his breakticket free
         if($breakTicket->timeToken != null AND (time()-$breakTicket->timeToken) > ($this->configs['breakSystem']['latencyTime']*60)) {
           $user = $this->userController->returnUserById($breakTicket->owner);
-          $this->logController->log('INFO', "User {$user->username}({$user->fullname}) did not unbreak. Auto-unbreak', $_SESSION['id'], 3);
+          $this->logController->log('INFO', "User {$user->username}({$user->fullname}) did not unbreak. Auto-unbreak", $user->id, 3);
           $this->breakRepository->unbreak($breakTicket->owner);
           $breakTicket->timeToken = null;
           $breakTicket->owner = null;

@@ -4,10 +4,7 @@
 <br/>
 
 <center>
-<a href="?msgtype=">Zeige alle Logs</a><br/>
-<a href="?msgtype=1">Leute, die in Pause gegangen sind</a><br/>
-<a href="?msgtype=2">Leute, die die Pause beendet haben</a></br>
-<a href="?msgtype=3">Leute, die vergessen haben ihre Pause zu beenden</a></br><br/><br/>
+<a href="showUser">Zur&uuml;ck zur &Uuml;bersicht</a><br/>
 
 <table border="true">
   <tr>
@@ -23,7 +20,8 @@
   {
     $msgType = $log->msgtype == "ERR" ? "Fehler" : "Info";
 
-    echo "<tr>
+    echo "
+    <tr>
       <td>".date("d.M.Y, H:i:s", $log->time)."</td>
       <td>{$log->controller}</td>
       <td>{$msgType}</td>
@@ -33,5 +31,5 @@
 
   ?>
 </table>
-
+</center>
 <?php include __DIR__ . "/../../layout/footer.php"; ?>

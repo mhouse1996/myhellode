@@ -16,6 +16,13 @@ class LogController extends AbstractController
       $this->configs = $configs;
     }
 
+    public function checkGrants()
+    {
+      if($this->userController->returnGrants() < $this->configs['logs']['adminSysGrantlevel']){
+        header("Location: index");
+      }
+    }
+
     public function setController($controller)
     {
       $this->controller = $controller;
@@ -26,14 +33,24 @@ class LogController extends AbstractController
       return $this->logRepository->queryLog(time(), $this->controller, $msgtype, $msg, $user, $msgcode);
     }
 
-    public function showlogs($type = "all")
+    public function showLogs()
     {
-      if($this->userController->returnGrants() < $this->configs['logs']['adminSysGrantlevel']){
-        header("Location: index");
+      $this->checkGrants();
+      if(isset($_GET['msgtype']) && !empty($_GET['msgtype'])){
+          $msgType = $_GET['msgtype'];
+          $logs = $this->logRepository->fetchLogsByMsgType($msgType);
+      } else {
+          $logs = $this->logRepository->all();
       }
-      $logs = $this->logRepository->all();
       $this->render('admin/logs/showlogs', [
       'logs' => $logs]);
+    }
+
+    public function returnLogsByUserId($userID)
+    {
+      $this->checkGrants();
+      $logs = $this->logRepository->fetchLogsByUserId($userID);
+      return $logs;
     }
 
 }

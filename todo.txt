@@ -1,13 +1,14 @@
 X-Remove break tickets
 X-Enable/Disable toggle
 X-Fix timeout timer
-X-Fix amount of free break tickets
+x-Fix amount of free break tickets
 X-Fix translation of usertype
 X-log controller
 X-log view page
 -sort rules
-X-show how much free tickets are available for each usertype
+-show how much free tickets are available for each usertype
 X-fix header actions
--user action log
+X-user action log
 -show user list with each user and the last time he took breakticket
 -google SSO
+X-fix reference id of user in timeout timer

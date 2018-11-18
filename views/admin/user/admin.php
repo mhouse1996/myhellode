@@ -6,27 +6,13 @@
 <center>
 <table border="true">
   <tr>
-    <th>
-      Benutzer ID
-    </th>
-    <th>
-      Benutzername
-    </th>
-    <th>
-      Voller Name
-    </th>
-    <th>
-      E-Mail Adresse
-    </th>
-    <th>
-      Benutzergruppe
-    </th>
-    <th>
-      Sicherheitslevel
-    </th>
-    <th>
-      Letzte Pause
-    </th>
+    <th>Benutzer ID</th>
+    <th>Benutzername</th>
+    <th>Voller Name</th>
+    <th>E-Mail Adresse</th>
+    <th>Benutzergruppe</th>
+    <th>Sicherheitslevel</th>
+    <th>Letzte Pause</th>
   </tr>
 
   <?php
@@ -40,7 +26,7 @@
     <td>{$user->email}</td>
     <td>{$user->usertype}</td>
     <td>{$user->grants}</td>
-    <td>In progress..</td>
+    <td>Coming soon</td>
     </tr>";
   }
 

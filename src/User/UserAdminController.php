@@ -33,8 +33,12 @@ class UserAdminController extends AbstractController
 
     public function showUser()
     {
-      if(isset($_GET['id'])){
-
+      if(isset($_GET['id']) && !empty($_GET['id'])){
+        $userID = $_GET['id'];
+        $logs = $this->logController->returnLogsByUserId($userID);
+        $this->render("admin/user/showuserlogs", [
+          'logs' => $logs
+        ]);
       } else {
         $this->showUserIndex();
       }

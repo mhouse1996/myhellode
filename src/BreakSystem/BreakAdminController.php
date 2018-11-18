@@ -26,6 +26,7 @@ class BreakAdminController extends AbstractController
 
     public function showAdminPage($err = 0)
     {
+      
       $this->render('admin/breaksystem/admin', [
         'breakTickets' => $this->breakController->fetchBreakTickets(),
         'breakController' => $this->breakController,
