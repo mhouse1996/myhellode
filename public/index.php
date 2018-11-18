@@ -32,6 +32,14 @@ $routes = [
 	'/unbreak' => [
 		'controller' => 'breakController',
 		'method' => 'unbreak'
+	],
+	'/breakAdmin' => [
+		'controller' => 'breakAdminController',
+		'method' => 'showAdminPage'
+	],
+	'/addTicket' => [
+		'controller' => 'breakAdminController',
+		'method' => 'addTicket'
 	]
 ];
 

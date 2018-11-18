@@ -27,6 +27,17 @@ class UserRepository extends AbstractRepository
     return $user;
   }
 
+  public function fetchUserById($id)
+  {
+    $table = $this->getTableName();
+    $model = $this->getModelName();
+    $stmt = $this->pdo->prepare("SELECT * FROM `$table` WHERE id = :id");
+    $stmt->execute(['id' => $id]);
+    $stmt->setFetchMode(PDO::FETCH_CLASS, $model);
+    $user = $stmt->fetch(PDO::FETCH_CLASS);
+    return $user;
+  }
+
   /*public function fetchNavbar($user)
   {
     $table = "navbar";

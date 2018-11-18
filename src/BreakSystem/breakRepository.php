@@ -31,5 +31,15 @@ class BreakRepository extends AbstractRepository
     $res = $stmt->execute(['userID' => $userID]);
     return $res;
   }
+
+  public function addBreakTicket($userType, $beginningTime, $endingTime)
+  {
+    $table = $this->getTableName();
+    $stmt = $this->pdo->prepare("INSERT INTO `$table` (userType, beginningTime, endingTime) VALUES (:userType, :beginningTime, :endingTime)");
+    $res = $stmt->execute(['userType' => $userType,
+                            'beginningTime' => $beginningTime,
+                            'endingTime' => $endingTime]);
+    return $res;
+  }
 }
 ?>

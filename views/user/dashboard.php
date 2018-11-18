@@ -4,6 +4,11 @@
 
 <ul>
   <li><a href="breaksystem">Pausensystem</a></li>
+  <?php
+    if(isset($_SESSION['grants']) && $_SESSION['grants'] > 1){
+      echo '<li><a href="breakAdmin">Pausenverwaltungssystem</a></li>';
+    }
+  ?>
   <li><a href="logout">Logout</a></li>
 </ul>
 

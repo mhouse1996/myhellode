@@ -11,6 +11,7 @@ use App\User\UserController;
 use App\User\UserService;
 use App\BreakSystem\BreakRepository;
 use App\BreakSystem\BreakController;
+use App\BreakSystem\BreakAdminController;
 
 class Container
 {
@@ -22,6 +23,12 @@ class Container
   {
     $this->configs = $configs;
     $this->receipts = [
+      'breakAdminController' => function()
+      {
+        return new BreakAdminController(
+          $this->make('breakController')
+        );
+      },
       'breakController' => function()
       {
         return new BreakController(

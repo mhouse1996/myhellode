@@ -6,6 +6,7 @@ use App\Core\AbstractController;
 
 class UserController extends AbstractController
 {
+
   public function __construct(UserService $userService)
   {
     $this->userService = $userService;
@@ -18,6 +19,16 @@ class UserController extends AbstractController
     }else {
       return false;
     }
+  }
+
+  public function returnGrants()
+  {
+    return $this->userService->returnGrants();
+  }
+
+  public function returnUserById($id)
+  {
+    return $this->userService->fetchUserById($id);
   }
 
   public function dashboard()
@@ -56,7 +67,6 @@ class UserController extends AbstractController
     $this->userService->logout();
     header("Location: index");
   }
-
 
 }
 

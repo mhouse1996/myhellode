@@ -17,6 +17,15 @@ class UserService
     }
   }
 
+  public function fetchUserById($id){
+    return $this->userRepository->fetchUserById($id);
+  }
+
+  public function returnGrants()
+  {
+    return $_SESSION['grants'];
+  }
+
   public function attempt($username, $password)
   {
     $user = $this->userRepository->findByUsername($username);

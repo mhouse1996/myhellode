@@ -15,8 +15,7 @@ class breakController extends AbstractController
     $this->breakRepository = $breakRepository;
     $this->configs = $configs;
 
-    if(!$this->userController->checkLoginstate())
-    {
+    if(!$this->userController->checkLoginstate()){
       header("Location: index");
     }
   }
@@ -39,7 +38,6 @@ class breakController extends AbstractController
     $breakTickets = array();
 
     $breakTickets = $this->fetchBreakTickets();
-
     $breakTicketsSubstr = 0;
 
     if(!empty($breakTickets))
@@ -77,7 +75,6 @@ class breakController extends AbstractController
   {
     if($breakTicket->userType == $_SESSION['usertype'] AND !isset($breakTicket->owner)){
       $timeNow = date("H:i");
-
       if($timeNow > $breakTicket->beginningTime AND $timeNow < $breakTicket->endingTime) {
         return true;
       }else {
