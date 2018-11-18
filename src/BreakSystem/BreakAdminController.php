@@ -16,6 +16,8 @@ class BreakAdminController extends AbstractController
       $this->logController = $logController;
       $this->configs = $breakController->configs;
 
+      $this->logController->setController("BreakAdminController");
+
       if($this->userController->returnGrants() < $this->configs['breakSystem']['adminSysGrantlevel']){
         header("Location: index");
       }
@@ -24,7 +26,7 @@ class BreakAdminController extends AbstractController
 
     public function showAdminPage($err = 0)
     {
-      $this->render('breaksystem/admin', [
+      $this->render('admin/breaksystem/admin', [
         'breakTickets' => $this->breakController->fetchBreakTickets(),
         'breakController' => $this->breakController,
         'err' => $err
@@ -51,7 +53,7 @@ class BreakAdminController extends AbstractController
     {
       if(isset($_GET['id']) && isset($_GET['action'])){
         $ticketID = $_GET['id'];
-        $errmsg = "Error message is unset.";
+        $errmsg = "msgunset";
 
         if($_GET['action'] == "remove"){
           $req = $this->breakRepository->removeBreakTicket($ticketID);
@@ -59,6 +61,9 @@ class BreakAdminController extends AbstractController
         } elseif($_GET['action'] == "toggle" && isset($_GET['state'])) {
           $req = $this->breakRepository->toggleActivityState($ticketID, $_GET['state']);
           $errmsg = 'couldNotToggleTicket';
+        } elseif ($_GET['action'] == "release") {
+          $req = $this->breakRepository->unbreakByTicketId($ticketID);
+          $this->logController->log("INFO", "User {$_SESSION['username']}({$_SESSION['fullname']}) released break ticket {$ticketID}", $_SESSION['id']);
         }
 
         if($req){

@@ -8,6 +8,7 @@
     if(isset($_SESSION['grants']) && $_SESSION['grants'] > 1){
       echo '<li><a href="breakAdmin">Pausenverwaltungssystem</a></li>';
       echo '<li><a href="logs">Logs(alpha)</a></li>';
+      echo '<li><a href="userControl">Benutzerverwaltung</a></li>';
     }
   ?>
   <li><a href="logout">Logout</a></li>

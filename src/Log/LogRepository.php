@@ -17,11 +17,11 @@ class LogRepository extends AbstractRepository
         return "App\\Log\\LogModel";
     }
 
-    public function queryLog($time, $controller, $msgtype, $msg, $user)
+    public function queryLog($time, $controller, $msgtype, $msg, $user, $msgcode)
     {
       $table = $this->getTableName();
-      $stmt = $this->pdo->prepare("INSERT INTO `$table` (time, controller, msgtype, msg, user) VALUES (:time, :controller, :msgtype, :msg, :user)");
-      $res = $stmt->execute(['time' => $time, 'controller' => $controller, 'msgtype' => $msgtype, 'msg' => $msg, 'user' => $user]);
+      $stmt = $this->pdo->prepare("INSERT INTO `$table` (time, controller, msgtype, msg, user, msgcode) VALUES (:time, :controller, :msgtype, :msg, :user, :msgcode)");
+      $res = $stmt->execute(['time' => $time, 'controller' => $controller, 'msgtype' => $msgtype, 'msg' => $msg, 'user' => $user, 'msgcode' => $msgcode]);
       return $res;
     }
 

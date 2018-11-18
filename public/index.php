@@ -48,6 +48,14 @@ $routes = [
 	'/logs' => [
 		'controller' => 'logController',
 		'method' => 'showLogs'
+	],
+	'/userControl' => [
+		'controller' => 'userAdminController',
+		'method' => 'showUserIndex'
+	],
+	'/showUser' => [
+		'controller' => 'userAdminController',
+		'method' => 'showUser'
 	]
 ];
 

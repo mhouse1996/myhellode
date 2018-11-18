@@ -15,4 +15,9 @@ $configs['breakSystem']['adminSysGrantlevel'] = 2;
 //Log Module Parameters
 #Minimum user grant level for viewing Logs
 $configs['logs']['adminSysGrantlevel'] = 2;
+
+//User Module Parameters
+#Minimum user grant level for viewing admin userdata
+$configs['user']['adminSysGrantlevel'] = 3;
+
 ?>

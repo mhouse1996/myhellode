@@ -12,7 +12,7 @@ if(isset($msg)){
     <p><?php echo $msglist[$msg]['msg']; ?></p>
   <?php endif;
   if($msg == "userAlreadyInBreak"):?>
-    <form method="POST" action="unbreak"><input type="submit" value="<?php echo $msglist[$msg]['buttontext']; ?>"/></form>
+    <form method="POST" action="unbreak"><input type="submit" value="Pause beenden"/></form>
   <?php
   endif;
 }

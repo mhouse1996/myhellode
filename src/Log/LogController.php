@@ -7,6 +7,7 @@ use App\User\UserController;
 
 class LogController extends AbstractController
 {
+    private $controller;
 
     public function __construct(LogRepository $logRepository, UserController $userController, $configs)
     {
@@ -15,9 +16,14 @@ class LogController extends AbstractController
       $this->configs = $configs;
     }
 
-    public function log($controller, $msgtype, $msg, $user=null)
+    public function setController($controller)
     {
-      return $this->logRepository->queryLog(time(), $controller, $msgtype, $msg, $user);
+      $this->controller = $controller;
+    }
+
+    public function log($msgtype, $msg, $user=null, $msgcode=null)
+    {
+      return $this->logRepository->queryLog(time(), $this->controller, $msgtype, $msg, $user, $msgcode);
     }
 
     public function showlogs($type = "all")
@@ -26,7 +32,7 @@ class LogController extends AbstractController
         header("Location: index");
       }
       $logs = $this->logRepository->all();
-      $this->render('logs/showlogs', [
+      $this->render('admin/logs/showlogs', [
       'logs' => $logs]);
     }
 

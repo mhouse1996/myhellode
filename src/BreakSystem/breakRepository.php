@@ -32,6 +32,14 @@ class BreakRepository extends AbstractRepository
     return $req;
   }
 
+  public function unbreakByTicketId($ticketID)
+  {
+    $table = $this->getTableName();
+    $stmt = $this->pdo->prepare("UPDATE `$table` SET owner = null , timeToken = null , estimatedBreakDuration = null WHERE id = :ticketID");
+    $req = $stmt->execute(['ticketID' => $ticketID]);
+    return $req;
+  }
+
   public function addBreakTicket($userType, $beginningTime, $endingTime)
   {
     $table = $this->getTableName();

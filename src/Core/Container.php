@@ -6,6 +6,7 @@ use PDO;
 use Exception;
 use PDOException;
 
+use App\User\UserAdminController;
 use App\User\UserRepository;
 use App\User\UserController;
 use App\User\UserService;
@@ -63,15 +64,17 @@ class Container
           $this->make('pdo')
         );
       },
+      'userAdminController' => function()
+      {
+        return new UserAdminController(
+          $this->make('userController'),
+          $this->make('logController'),
+          $this->configs
+        );
+      },
       'userController' => function()
       {
         return new UserController(
-          $this->make('userService')
-        );
-      },
-      'userService' => function()
-      {
-        return new UserService(
           $this->make('userRepository')
         );
       },

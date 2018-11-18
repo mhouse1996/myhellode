@@ -17,9 +17,11 @@ class breakController extends AbstractController
     $this->logController = $logController;
     $this->configs = $configs;
 
-    /*if(!$this->userController->checkLoginstate()){
+    $this->logController->setController("BreakController");
+
+    if(!$this->userController->checkLoginstate()){
       header("Location: index");
-    }*/
+    }
   }
 
   public function fetchBreakTickets()
@@ -49,7 +51,7 @@ class breakController extends AbstractController
         //Check if someone forget to give his breakticket free
         if($breakTicket->timeToken != null AND (time()-$breakTicket->timeToken) > ($this->configs['breakSystem']['latencyTime']*60)) {
           $user = $this->userController->returnUserById($breakTicket->owner);
-          $this->logController->log('BreakController', 'INFO', 'User '.$user->username.'('.$user->fullname.') did not unbreak. Auto-unbreak', $_SESSION['id']);
+          $this->logController->log('INFO', "User {$user->username}({$user->fullname}) did not unbreak. Auto-unbreak', $_SESSION['id'], 3);
           $this->breakRepository->unbreak($breakTicket->owner);
           $breakTicket->timeToken = null;
           $breakTicket->owner = null;
@@ -124,6 +126,7 @@ class breakController extends AbstractController
 
     if(!isset($ticket->owner) AND $ticket->userType == $_SESSION['usertype'] AND $this->checkAvailability($this->fetchBreakTicketById($ticketID)) AND isset($_POST['estimatedBreakDuration'])){
       if($this->breakRepository->takeBreakTicket($ticketID, $_SESSION['id'], $_POST['estimatedBreakDuration'])){
+        $this->logController->log("INFO", "User {$_SESSION['username']}({$_SESSION['fullname']}) took break ticket ".$ticketID, $_SESSION['id'], 1);
         $this->showFreeBreakTickets();
       }else {
         $this->render("breakSystem/error", [
@@ -154,6 +157,7 @@ class breakController extends AbstractController
     $req = $this->breakRepository->unbreak($_SESSION['id']);
 
     if($req){
+      $this->logController->log("INFO", "User {$_SESSION['username']}({$_SESSION['fullname']}) ended break.", $_SESSION['id'], 2);
       $this->showFreeBreakTickets();
     } else {
       $this->render("breakSystem/error", [

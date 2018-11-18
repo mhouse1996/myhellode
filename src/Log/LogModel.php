@@ -13,6 +13,7 @@ class LogModel extends AbstractModel
     public $msgtype;
     public $msg;
     public $user;
+    public $msgcode;
 
 }
 

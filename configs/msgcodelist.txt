@@ -1,0 +1,4 @@
+LOG MODUL MSG CODE LIST
+1   -   User went in break
+2   -   User ended break
+3   -   System ended break of user automatically

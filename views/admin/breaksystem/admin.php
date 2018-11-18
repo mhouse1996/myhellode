@@ -1,4 +1,4 @@
-<?php include __DIR__ . "/../layout/header.php"; ?>
+<?php include __DIR__ . "/../../layout/header.php"; ?>
 
 <br/>
 <br/>
@@ -29,8 +29,8 @@ foreach($breakTickets as $breakTicket)
   }
 }
 
-echo "Aus dem Inbound-Team sind ".$inboundUsedTicketCount." aktive Pausenticket(s) belegt, ".$inboundFreeTicketCount." Pausentickets sind noch verf&uuml;gbar.<br/>";
-echo "Aus dem Outbound-Team sind ".$outboundUsedTicketCount." aktive Pausenticket(s) belegt, ".$outboundFreeTicketCount." Pausentickets sind noch verf&uuml;gbar.<br/>";
+echo "Aus dem Inbound-Team sind ".$inboundUsedTicketCount." aktive Pausenticket(s) belegt, ".$inboundFreeTicketCount." Pausenticket(s) sind noch verf&uuml;gbar.<br/>";
+echo "Aus dem Outbound-Team sind ".$outboundUsedTicketCount." aktive Pausenticket(s) belegt, ".$outboundFreeTicketCount." Pausenticket(s) sind noch verf&uuml;gbar.<br/><br/><br/>";
 
 
 if(!empty($breakTickets)){
@@ -105,6 +105,9 @@ echo 'Aktuelle Regeln:<br/>
           <th>
             Aktionen
           </th>
+          <th>
+            Aktueller Besitzer
+          </th>
         </tr>';
 
 foreach($breakTickets as $rule)
@@ -112,6 +115,14 @@ foreach($breakTickets as $rule)
   $userType = $rule->userType == "service" ? "Inbound" : "Outbond";
   $toggleMsg = $rule->activity == 1 ? "Deaktivieren" : "Aktivieren" ;
   $oppositeState = $rule->activity == 1 ? 0 : 1;
+
+  if($rule->owner != null){
+    $owner = $breakController->userController->returnUserById($rule->owner);
+    $owner = $owner->fullname;
+  } else {
+    $owner = "Frei";
+  }
+
   echo '<tr>
           <td>
             '.$userType.'
@@ -122,6 +133,11 @@ foreach($breakTickets as $rule)
           <td>
             <form method="POST" action="changeTicket?action=remove&id='.$rule->id.'"><input type="submit" value="Entfernen" /></form>
             <form method="POST" action="changeTicket?action=toggle&id='.$rule->id.'&state='.$oppositeState.'"><input type="submit" value="'.$toggleMsg.'" /></form>
+            <form method="POST" action="changeTicket?action=release&id='.$rule->id.'"><input type="submit" value="Freigeben" /></form>
+          </td>
+          <td>
+            '.$owner.'
+          </td>
         </tr>';
 }
 echo '</table>';
@@ -130,4 +146,4 @@ echo '</table>';
 
 </center>
 
-<?php include __DIR__ . "/../layout/footer.php"; ?>
+<?php include __DIR__ . "/../../layout/footer.php"; ?>
