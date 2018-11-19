@@ -12,3 +12,4 @@ X-user action log
 -show user list with each user and the last time he took breakticket
 -google SSO
 X-fix reference id of user in timeout timer
+-implement config file for mysql connection
