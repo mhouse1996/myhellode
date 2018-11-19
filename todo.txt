@@ -17,3 +17,4 @@ X-fix reference id of user in timeout timer
 -use of services instead of controller for interclass use
 -clean up code
 -add comments with parameters
+-conclude query functions
