@@ -6,7 +6,7 @@ X-Fix translation of usertype
 X-log controller
 X-log view page
 -sort rules
--show how much free tickets are available for each usertype
+X-show how much free tickets are available for each usertype
 X-fix header actions
 X-user action log
 -show user list with each user and the last time he took breakticket
