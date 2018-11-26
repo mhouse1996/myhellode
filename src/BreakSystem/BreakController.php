@@ -90,7 +90,7 @@ class breakController extends AbstractController
   public function checkAvailabilityByTime($breakTicket)
   {
     $timeNow = date("H:i");
-    if($timeNow > $breakTicket->beginningTime AND $timeNow < $breakTicket->endingTime) {
+    if($timeNow >= $breakTicket->beginningTime AND $timeNow < $breakTicket->endingTime) {
       return true;
     }else {
       return false;
