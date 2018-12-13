@@ -10,6 +10,7 @@ X-show how much free tickets are available for each usertype
 X-fix header actions
 X-user action log
 -show user list with each user and the last time he took breakticket
+-search function
 -google SSO
 X-fix reference id of user in timeout timer
 -implement config file for mysql connection
@@ -18,3 +19,4 @@ X-fix reference id of user in timeout timer
 -clean up code
 -add comments with parameters
 -conclude query functions
+-fix breaktype in break admin controller

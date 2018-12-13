@@ -83,7 +83,7 @@ if($err){
     <th>Zeitraum</th>
     <th>Aktionen</th>
     <th>Aktueller Besitzer</th>
-  </tr>';
+  </tr>
 
 <?php
 foreach($breakTickets as $rule)
