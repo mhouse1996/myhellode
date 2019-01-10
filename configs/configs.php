@@ -4,7 +4,7 @@ $configs = array();
 $configs['mysql']['host']="localhost";
 $configs['mysql']['user']="root";
 $configs['mysql']['password']="";
-$configs['mysql']['db']="myhello";
+$configs['mysql']['db']="myhellode";
 
 //BreakSystem Parameters
 #Time after a break ticket is given free automatically in Minutes

@@ -4,21 +4,22 @@ namespace App\BreakSystem;
 
 use App\Core\AbstractController;
 use App\Log\LogController;
+use App\User\UserService;
 
 class BreakAdminController extends AbstractController
 {
 
-    public function __construct(BreakController $breakController, LogController $logController)
+    public function __construct(BreakController $breakController, UserService $userService, LogController $logController)
     {
       $this->breakController = $breakController;
-      $this->userController = $breakController->userController;
+      $this->userService = $userService;
       $this->breakRepository = $breakController->breakRepository;
       $this->logController = $logController;
       $this->configs = $breakController->configs;
 
       $this->logController->setController("BreakAdminController");
 
-      if($this->userController->returnGrants() < $this->configs['breakSystem']['adminSysGrantlevel']){
+      if($this->userService->returnGrants() < $this->configs['breakSystem']['adminSysGrantlevel']){
         header("Location: index");
       }
     }
@@ -26,10 +27,39 @@ class BreakAdminController extends AbstractController
 
     public function showAdminPage($err = 0)
     {
-      
+      $breakTickets = $this->breakController->fetchBreakTickets();
+
+      $inboundFreeTicketCount = 0;
+      $inboundUsedTicketCount = 0;
+      $outboundFreeTicketCount = 0;
+      $outboundUsedTicketCount = 0;
+
+      foreach($breakTickets as $breakTicket)
+      {
+        if($breakTicket->activity == 1){
+          if($breakTicket->userType == "service"){
+            if($breakTicket->owner == null && $this->breakController->checkAvailabilityByTime($breakTicket)){
+              $inboundFreeTicketCount++;
+            } elseif($this->breakController->checkAvailabilityByTime($breakTicket)) {
+              $inboundUsedTicketCount++;
+            }
+          } elseif($breakTicket->userType == "sales" && $this->breakController->checkAvailabilityByTime($breakTicket)) {
+            if($breakTicket->owner == null){
+              $outboundFreeTicketCount++;
+            } elseif($this->breakController->checkAvailabilityByTime($breakTicket)) {
+              $outboundUsedTicketCount++;
+            }
+          }
+        }
+      }
+
       $this->render('admin/breaksystem/admin', [
-        'breakTickets' => $this->breakController->fetchBreakTickets(),
-        'breakController' => $this->breakController,
+        'breakTickets' => $breakTickets,
+        'inboundUsedTicketCount' => $inboundUsedTicketCount,
+        'inboundFreeTicketCount' => $inboundFreeTicketCount,
+        'outboundUsedTicketCount' => $outboundUsedTicketCount,
+        'outboundFreeTicketCount' => $outboundFreeTicketCount,
+        'userService' => $this->userService,
         'err' => $err
       ]);
     }

@@ -3,6 +3,7 @@
 namespace App\User;
 
 use App\Core\AbstractController;
+
 use App\Log\LogController;
 
 class UserAdminController extends AbstractController
@@ -23,12 +24,69 @@ class UserAdminController extends AbstractController
 
     }
 
-    public function showUserIndex()
+    public function showUserIndex($users = null)
     {
-      $users = $this->userRepository->all();
+
+      if (!isset($users)) {
+        $users = $this->userRepository->all();
+      } else {
+        $users = $users;
+      }
+
+      $lastBreaks = [];
+
+      var_dump($users);
+      if (is_array($users)) {
+        foreach($users as $user)
+        {
+          var_dump($user);
+          $userLog = $this->logController->returnLastBreakByUserId($user->id);
+          if ($userLog){
+            $lastBreaks[$user->id] = $userLog->time;
+          } else {
+            $lastBreaks[$user->id] = "N/A";
+          }
+        }
+      }
+      
       $this->render("admin/user/admin", [
-        'users' => $users
+        'users' => $users,
+        'lastBreaks' => $lastBreaks
       ]);
+    }
+
+    public function searchUser($user = null)
+    {
+      if (isset($_POST['keyword'])) {
+        $users = $this->userRepository->searchUser(mysql_real_escape_string($_POST['keyword']));
+      } else {
+        $users = $this->userRepository->searchUser($user);
+      }
+
+      if (isset($_GET['ref'])) {
+        if ($_GET['ref'] == "showUser") {
+          $this->showUserIndex($users);
+        }
+      } else {
+        return $users;
+      }
+    }
+
+    public function getLastBreaks()
+    {
+      $lastBreaks = [];
+
+      $logs = $this->logController->returnLogsByMsgType(1);
+      foreach($logs as $log)
+      {
+        if (isset($log->time)){
+          $lastBreaks[$log->user] = $log->time;
+        } else {
+          $lastBreaks[$log->user] = "N/A";
+        }
+      }
+
+      return $lastBreaks;
     }
 
     public function showUser()

@@ -1,3 +1,4 @@
+<title>Login</title>
 <?php require ( __DIR__ . "/../layout/header.php"); ?>
 
 <?php if (!empty($error)): ?>

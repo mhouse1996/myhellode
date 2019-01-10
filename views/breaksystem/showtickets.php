@@ -1,3 +1,4 @@
+<title>myhello.de Pausensystem</title>
 <?php include __DIR__ . "/../layout/header.php"; ?>
 
 <br/>
@@ -12,7 +13,7 @@ if(isset($msg)){
     <p><?php echo $msglist[$msg]['msg']; ?></p>
   <?php endif;
   if($msg == "userAlreadyInBreak"):?>
-    <form method="POST" action="unbreak"><input type="submit" value="Pause beenden"/></form>
+    <form method="POST" action="updateBreak?action=unbreak"><input type="submit" value="Pause beenden"/></form>
   <?php
   endif;
 }
@@ -23,7 +24,7 @@ if($freeBreakTickets != 0)
 {
   foreach($freeBreakTickets as $breakTicket)
   {
-    echo '<form method="POST" action="takeBreakTicket?id='.$breakTicket->id.'"">
+    echo '<form method="POST" action="updateBreak?action=take&id='.$breakTicket->id.'"">
             <select name="estimatedBreakDuration">
               <option value="short">Bis 10 Minuten</option>
               <option value="long">Bis 30 Minuten</option>
@@ -32,10 +33,8 @@ if($freeBreakTickets != 0)
           </form>';
     $ticketCount++;
   }
+  if ($ticketCount > 1): echo "Es sind ".$ticketCount." Pausentickets f&uuml;r dich verf&uuml;gbar.<br>"; else: echo "Es ist ".$ticketCount." Pausenticket f&uuml;r dich verf&uuml;gbar.<br>"; endif;
 }
-
-
-if($ticketCount > 1 OR $ticketCount == 0): echo "Es sind ".$ticketCount." Pausentickets f&uuml;r dich verf&uuml;gbar.<br>"; else: echo "Es ist ".$ticketCount." Pausenticket f&uuml;r dich verf&uuml;gbar.<br>"; endif;
 ?>
 
 <?php include __DIR__ . "/../layout/footer.php"; ?>

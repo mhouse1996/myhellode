@@ -4,6 +4,8 @@ namespace App\BreakSystem;
 
 use App\Core\AbstractRepository;
 
+use PDO;
+
 class BreakRepository extends AbstractRepository
 {
   public function getTableName()
@@ -14,6 +16,15 @@ class BreakRepository extends AbstractRepository
   public function getModelName()
   {
     return "App\\BreakSystem\\BreakModel";
+  }
+
+  public function fetchBreakTickets()
+  {
+    $table = $this->getTableName();
+    $model = $this->getModelName();
+    $stmt = $this->pdo->query("SELECT * FROM `$table` ORDER BY userType ASC, beginningTime ASC");
+    $res = $stmt->fetchAll(PDO::FETCH_CLASS, $model);
+    return $res;
   }
 
   public function takeBreakTicket($ticketID, $userID, $estimatedBreakDuration)

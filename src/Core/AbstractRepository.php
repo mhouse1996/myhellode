@@ -46,5 +46,41 @@ abstract class AbstractRepository
 
     return $res;
   }
+
+  public function select($query, $rows="*")
+  {
+    $table = $this->getTableName();
+    $model = $this->getModelName();
+
+
+    #Prepare parameters
+    $conditions = explode(" AND ", $query);
+    $cRow = [];
+    $cPam = [];
+
+    foreach($conditions as $condition) {
+      $condition = explode("=", $condition);
+      $crow[] = $condition[0];
+      $cpam[] = $condition[1];
+    }
+
+    foreach ($crow as $key => $value) {
+      if ($key > 0) {
+        $parameters .= " AND ";
+      }
+      $parameters .= "{$value} = :{$value}";
+    }
+
+    $args = [];
+    foreach ($cpam as $key => $value) {
+      $args[$crow[$key]] = $value;
+    }
+
+    $stmt = $this->pdo->prepare("SELECT {$rows} FROM `$table` WHERE {$parameters}");
+    $stmt->execute($args);
+    $stmt->setFetchMode(PDO::FETCH_CLASS, $model);
+    $res = $stmt->fetch(PDO::FETCH_CLASS);  }
 }
+
+select("username=fiona AND password=test");
  ?>

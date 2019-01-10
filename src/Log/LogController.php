@@ -3,22 +3,22 @@
 namespace App\Log;
 
 use App\Core\AbstractController;
-use App\User\UserController;
+use App\User\UserService;
 
 class LogController extends AbstractController
 {
     private $controller;
 
-    public function __construct(LogRepository $logRepository, UserController $userController, $configs)
+    public function __construct(LogRepository $logRepository, UserService $userService, $configs)
     {
       $this->logRepository = $logRepository;
-      $this->userController = $userController;
+      $this->userService = $userService;
       $this->configs = $configs;
     }
 
     public function checkGrants()
     {
-      if($this->userController->returnGrants() < $this->configs['logs']['adminSysGrantlevel']){
+      if($this->userService->returnGrants() < $this->configs['logs']['adminSysGrantlevel']){
         header("Location: index");
       }
     }
@@ -51,6 +51,16 @@ class LogController extends AbstractController
       $this->checkGrants();
       $logs = $this->logRepository->fetchLogsByUserId($userID);
       return $logs;
+    }
+
+    public function returnLogsByMsgType($msgType)
+    {
+      return $this->logRepository->fetchLogsByMsgType($msgType);
+    }
+
+    public function returnLastBreakByUserId($userID)
+    {
+      return $this->logRepository->fetchLastBreakByUserId($userID);
     }
 
 }

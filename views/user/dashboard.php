@@ -1,3 +1,5 @@
+<title>Dashboard</title>
+
 <?php include __DIR__ . "/../layout/header.php"; ?>
 
 <?php echo 'Willkommen '.$_SESSION['fullname'].'!<br>'; ?>

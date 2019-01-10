@@ -46,6 +46,17 @@ class LogRepository extends AbstractRepository
       return $res;
     }
 
+    public function fetchLastBreakByUserId($userID)
+    {
+      $table = $this->getTableName();
+      $model = $this->getModelName();
+      $stmt = $this->pdo->prepare("SELECT * FROM `$table` WHERE user = :userid AND msgcode = 1 ORDER BY time DESC LIMIT 1");
+      $stmt->execute(['userid' => $userID]);
+      $stmt->setFetchMode(PDO::FETCH_CLASS, $model);
+      $res = $stmt->fetch(PDO::FETCH_CLASS);
+      return $res;
+    }
+
 }
 
 ?>

@@ -1,3 +1,4 @@
+<title>Ein Fehler ist aufgetreten</title>
 <?php
 include __DIR__ . "/../layout/header.php";
 include __DIR__ . "/../../configs/msglist.php";

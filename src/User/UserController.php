@@ -12,18 +12,13 @@ class UserController extends AbstractController
     $this->userRepository = $userRepository;
   }
 
-  public function checkLoginstate()
-  {
-    if(isset($_SESSION['grants']) AND $_SESSION['grants'] > 0){
-      return true;
-    }else {
-      return false;
-    }
-  }
-
   public function returnGrants()
   {
-    return $_SESSION['grants'];
+    if (isset($_SESSION['grants'])) {
+      return $_SESSION['grants'];
+    } else {
+      return false;
+    }
   }
 
   public function returnUserById($id)
@@ -33,9 +28,9 @@ class UserController extends AbstractController
 
   public function dashboard()
   {
-    if($this->checkLoginstate()){
+    if ($this->returnGrants() > 0) {
       $this->render("user/dashboard", []);
-    }else {
+    } else {
       header("Location: login");
     }
   }

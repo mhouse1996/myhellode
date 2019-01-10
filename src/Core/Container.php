@@ -32,7 +32,7 @@ class Container
       {
         return new LogController(
           $this->make('logRepository'),
-          $this->make('userController'),
+          $this->make('userService'),
           $this->configs
         );
       },
@@ -46,13 +46,14 @@ class Container
       {
         return new BreakAdminController(
           $this->make('breakController'),
+          $this->make('userService'),
           $this->make('logController')
         );
       },
       'breakController' => function()
       {
         return new BreakController(
-          $this->make('userController'),
+          $this->make('userService'),
           $this->make('breakRepository'),
           $this->make('logController'),
           $this->configs
@@ -72,6 +73,12 @@ class Container
           $this->configs
         );
       },
+      'userService' => function()
+      {
+        return new UserService(
+          $this->make('userController')
+        );
+      },
       'userController' => function()
       {
         return new UserController(
@@ -86,11 +93,10 @@ class Container
       },
       'pdo' => function() {
         try {
-
           $pdo = new PDO(
-            'mysql:host=localhost;dbname=myhellode;charset=utf8',
-            'root',
-            ''
+            "mysql:host={$this->configs['mysql']['host']};dbname=myhellode;charset=utf8",
+            $this->configs['mysql']['user'],
+            $this->configs['mysql']['password']
           );
         } catch (PDOException $e) {
           echo "Verbindung zur Datenbank fehlgeschlagen: {$e}";

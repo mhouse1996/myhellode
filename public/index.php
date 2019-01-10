@@ -25,13 +25,9 @@ $routes = [
 		'controller' => 'breakController',
 		'method' => 'showFreeBreakTickets'
 	],
-	'/takeBreakTicket' => [
+	'/updateBreak' => [
 		'controller' => 'breakController',
-		'method' => 'takeBreakTicket'
-	],
-	'/unbreak' => [
-		'controller' => 'breakController',
-		'method' => 'unbreak'
+		'method' => 'changeBreakTicket'
 	],
 	'/breakAdmin' => [
 		'controller' => 'breakAdminController',
@@ -56,6 +52,10 @@ $routes = [
 	'/showUser' => [
 		'controller' => 'userAdminController',
 		'method' => 'showUser'
+	],
+	'/searchUser' => [
+		'controller' => 'userAdminController',
+		'method' => 'searchUser'
 	]
 ];
 

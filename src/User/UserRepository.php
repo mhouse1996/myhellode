@@ -6,7 +6,7 @@ use PDO;
 
 class UserRepository extends AbstractRepository
 {
-  
+
   public function getTableName()
   {
     return "accounts";
@@ -37,6 +37,20 @@ class UserRepository extends AbstractRepository
     $stmt->setFetchMode(PDO::FETCH_CLASS, $model);
     $user = $stmt->fetch(PDO::FETCH_CLASS);
     return $user;
+  }
+
+  public function searchUser($keyword)
+  {
+    $table = $this->getTableName();
+    $model = $this->getModelName();
+    /*$stmt = $this->pdo->prepare("SELECT * FROM `$table` WHERE username LIKE '%:keyword%' OR fullname LIKE '%:keyword%' OR email LIKE '%:keyword%'");
+    $stmt->execute(['keyword' => $keyword]);*/
+    $query = "SELECT * FROM `$table` WHERE fullname LIKE '%{$keyword}%'";
+    $stmt = $this->pdo->prepare($query);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_CLASS, $model);
+    $users = $stmt->fetch(PDO::FETCH_CLASS);
+    return $users;
   }
 
   /*public function fetchNavbar($user)

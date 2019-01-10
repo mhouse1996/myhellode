@@ -11,7 +11,7 @@ class UserModel extends AbstractModel
   public $username;
   public $fullname;
   public $email;
-  public $userType;
+  public $usertype;
   public $grants;
   public $password;
 
